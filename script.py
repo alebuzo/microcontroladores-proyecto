@@ -33,7 +33,7 @@ def on_publish(client, userdata, mid):
 
 # Leer datos del puerto
 parser = argparse.ArgumentParser()
-parser.add_argument('-p', metavar='', type=str, default="/dev/ttyACM2",
+parser.add_argument('-p', metavar='', type=str, default="/dev/ttyACM0",
                     help='Puerto serial')
 args = parser.parse_args()
 data = serial.Serial(args.p, 115200, timeout=1) 
@@ -70,43 +70,23 @@ while client.connected != True:
 
 # En caso de conexión exitosa
 while (1):
-    #try:
+   
     	
         datos = data.readline().decode('utf-8').replace('\r', "").replace('\n', "")
            
+        print(datos[0:7])
         
-        if(datos[0:7] == "Label 0"):
-        	copia["Label 0"] = datos[10:14]
-      
-        
-        if(datos[0:7] == "Label 1"):
-        	copia["Label 1"] = datos[10:14]
-        
+        if(datos[0:7] == 'Palabra'):
+       		dict["Word detected"] = datos[-3:len(datos)] 
+       		if(datos[-3:len(datos)] == 'uda'):
+       			dict["Word detected"] = "Ayuda"
+       		if(datos[-3:len(datos)] == 'gro'):
+       			dict["Word detected"] = "Peligro"
+       			
+       	else:
+       		dict["Word detected"] = "-"
         
         	
-        if(datos[0:7] == "Label 2"):
-       		copia["Label 2"] = datos[10:14]
-       
-        
-        if(datos[0:14] == "Word detected:"):
-       		copia["Word detected"] = datos[-3:len(datos)]
-       	
-        if( (float(copia["Label 0"]) + float(copia["Label 1"]) + float(copia["Label 2"]) ) == 1):
-        
-        	dict["Label 0"] = copia["Label 0"]
-        	dict["Label 1"] = copia["Label 1"]
-        	dict["Label 2"] = copia["Label 2"]
-        	
-       		if(float(dict["Label 0"]) > float(copia["Label 1"]) and float(dict["Label 0"]) > float(copia["Label 2"])):
-        		dict["Word detected"] = "yes"
-        	
-        	if(float(dict["Label 1"]) > float(copia["Label 0"]) and float(dict["Label 1"]) > float(copia["Label 2"])):
-        		dict["Word detected"] = "No"
-        	
-        	if(float(dict["Label 2"]) > float(copia["Label 0"]) and float(dict["Label 2"]) > float(copia["Label 1"])):
-        		dict["Word detected"] = "ok"
-        		
-      
         
        
         
@@ -114,7 +94,7 @@ while (1):
         output = json.dumps(dict)
         print(output)
         client.publish(topico, output)
-        time.sleep(0.8)
+        # time.sleep(0.8)
    
     #except Exception as err:
      #   print("Transmision de datos deshabilitada")
