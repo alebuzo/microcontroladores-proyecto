@@ -3,7 +3,7 @@
 // Se definen los parametros para el muestreo
 #define SAMPLES 64
 #define GAIN (1.0f/50)
-#define SOUND_THRESHOLD 500
+#define SOUND_THRESHOLD 200
 
 
 float features[SAMPLES];
@@ -14,14 +14,14 @@ void setup() {
     Serial.begin(115200);
     PDM.onReceive(onAudio);
     mic.begin();
-    delay(3000);
+    delay(3000);ss
 }
 
 
 void loop() {
-    // await for a word to be pronounced
+    // espera que una palabra sea pronunciada
     if (recordAudioSample()) {
-        // print features to serial monitor
+        // imprime los features o caracteristicas del vector en el serial monitor
         for (int i = 0; i < SAMPLES; i++) {
             Serial.print(features[i], 6);
             Serial.print(i == SAMPLES - 1 ? '\n' : ',');

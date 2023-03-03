@@ -4,9 +4,15 @@ import numpy as np
 from os.path import basename
 from glob import glob
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
 from micromlgen import port
 from sklearn.model_selection import train_test_split
+#Import scikit-learn metrics module for accuracy calculation
+from sklearn import metrics
 
+
+# se cargan los datos de los audios contenidos en los archivos csv
 def load_features(folder):
     dataset = None
     classmap = {}
@@ -23,11 +29,29 @@ np.random.seed(0)
 dataset, classmap = load_features('data')
 X, y = dataset[:, :-1], dataset[:, -1]
 # this line is for testing your accuracy only: once you're satisfied with the results, set test_size to 1
+
+# se dividen los sets en entrenamiento y validacion
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-clf = SVC(kernel='poly', degree=2, gamma=0.1, C=100)
-clf.fit(X_train, y_train)
 
-print('Accuracy', clf.score(X_test, y_test))
+#ENTRENAR CON NAIVE BAYES Classifier
+clf = GaussianNB()
+#Train the model using the training sets
+clf.fit(X_train, y_train)
+#Predict the response for test dataset
+y_pred = clf.predict(X_test)
+
+
+#ENTRENAR CON support vector machine
+#clf = SVC(kernel='poly', degree=2, gamma=0.1, C=100)
+#clf.fit(X_train, y_train)
+
+
+# ENTRENAR CON RandomForest
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+#clf = RandomForestClassifier(n_estimators=30, max_depth=None, min_samples_split=3, random_state=0)
+#clf.fit(X_train, y_train)
+
+print('Accuracy', clf.score(X_test, y_pred))
 print('Exported classifier to plain C')
 print(port(clf, classmap=classmap))

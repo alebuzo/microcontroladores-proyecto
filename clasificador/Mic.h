@@ -10,7 +10,7 @@
 
 
 /**
- * Simple access to Ble Sense mic
+ * Acceso al microfono del arduino nano ble 33 sense 
  */
 class Mic {
 public:
@@ -24,7 +24,7 @@ public:
     }
 
     /**
-     * Setup PDM library
+     * Setup de la biblioteca PDM (Pulse Density Modulation)
      */
     bool begin(uint8_t gain = 20) {
         PDM.begin(1, 16000);
@@ -34,14 +34,14 @@ public:
     }
 
     /**
-     * Test if mic has new data
+     * Revisa si el micrófono tiene nueva información
      */
     bool hasData() {
         return _ready;
     }
 
     /**
-     * Get the RMS value
+     * Brinda el valor RMS 
      */
     int16_t data() {
         return _rms;
@@ -60,7 +60,7 @@ public:
     }
 
     /**
-     * Read the audio data from the PDM object
+     * se encarga de leer la informacion del audio a través del objeto PDM
      */
     void update() {
         int bytesAvailable = PDM.available();
@@ -75,7 +75,7 @@ public:
     }
 
     /**
-     * Mark data as read
+     * marca la información como captada y leída
      */
     void reset() {
         _ready = false;
