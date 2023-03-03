@@ -94,7 +94,3 @@ while (1):
         output = json.dumps(dict)
         print(output)
         client.publish(topico, output)
-        # time.sleep(0.8)
-   
-    #except Exception as err:
-     #   print("Transmision de datos deshabilitada")

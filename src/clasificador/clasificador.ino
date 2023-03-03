@@ -1,3 +1,10 @@
+//IE-0624 Laboratorio de Microcontroladores
+//Alexa Carmona Buzo B91643
+//Raquel Corrales Marin B92378
+//Laboratorio 4
+//Sismógrafo
+
+
 #include "Mic.h"
 #include "Classifier.h"
 #include "ClassifierRandomForest.h"

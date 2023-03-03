@@ -1,3 +1,9 @@
+//IE-0624 Laboratorio de Microcontroladores
+//Alexa Carmona Buzo B91643
+//Raquel Corrales Marin B92378
+//Laboratorio 4
+//Sismógrafo
+
 #include "Mic.h"
 
 // Se definen los parametros para el muestreo
